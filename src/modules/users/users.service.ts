@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, ILike, In, Not, Repository } from 'typeorm';
+import { Equal, FindOptionsWhere, ILike, In, Not, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -30,7 +30,6 @@ export class UsersService {
     const roleFilter = roles && roles.length > 0 ? In(roles) : null;
 
     const excludeSelf = Not(Equal(currentUserId));
-    console.log('currentId', currentUserId);
 
     let whereCondition: any;
 
@@ -52,7 +51,7 @@ export class UsersService {
     }
 
     const [users, totalCount] = await this.userRepository.findAndCount({
-      where: whereCondition,
+      where: whereCondition as FindOptionsWhere<User>,
       take: limit,
       skip: skip,
       order: {
