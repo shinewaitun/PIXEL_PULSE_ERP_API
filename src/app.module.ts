@@ -9,6 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guards/auth.guard';
 import { ApiKeyMiddleware } from './common/middleware/api-key.middleware';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { CompaniesModule } from './modules/company/companies.module';
 
 @Module({
   imports: [
@@ -38,8 +40,10 @@ import { ApiKeyMiddleware } from './common/middleware/api-key.middleware';
         signOptions: { expiresIn: '1d' },
       }),
     }),
-    UsersModule,
     AuthModule,
+    UsersModule,
+    SubscriptionsModule,
+    CompaniesModule,
   ],
   controllers: [AppController],
   providers: [
